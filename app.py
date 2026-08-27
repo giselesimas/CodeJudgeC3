@@ -22,13 +22,20 @@ SALT = b"CodeJudgeC3_FURG_C3_2026"
 # Arquivo .enc informado na execução:
 # sh rodar.sh testes_parte3.enc
 if len(sys.argv) < 2:
-    st.error("❌ Informe o arquivo de testes. Exemplo: sh rodar.sh testes_parte3.enc")
+    st.error(
+        "❌ Informe o arquivo de testes. "
+        "Exemplo: sh scripts/rodar.sh testes_parte3.enc"
+    )
     st.stop()
 
 ARQUIVO_TESTES = Path(sys.argv[1])
 
+PASTA_SOLUCOES = Path("solucoes")
+
 # Cria um backup diferente para cada arquivo de testes
-ARQUIVO_BACKUP = Path(f"backup_{ARQUIVO_TESTES.stem}.json")
+ARQUIVO_BACKUP = (
+    PASTA_SOLUCOES / f"backup_{ARQUIVO_TESTES.stem}.json"
+)
 
 # ==========================================
 # Funções de Backup e Segurança
@@ -548,7 +555,7 @@ try:
                 
                 # ---> NOVIDADE: Cria uma cópia do JSON com o nome do aluno
                 try:
-                    with open(f"{nome_formatado}.json", "w", encoding="utf-8") as f:
+                    with open(PASTA_SOLUCOES / f"{nome_formatado}.json", "w", encoding="utf-8") as f:
                         json.dump(st.session_state.historico, f, ensure_ascii=False, indent=4)
                 except Exception as e:
                     st.error(f"Erro ao criar cópia do JSON do aluno: {e}")
@@ -596,6 +603,7 @@ try:
                 st.progress(melhor_acerto)
             
             st.divider()
+            #nota_total = st.session_state.nota_teorica + nota_pratica_calculada
             nota_total = st.session_state.nota_teorica + nota_pratica_calculada
             total_geral = total_prova_pratica
             

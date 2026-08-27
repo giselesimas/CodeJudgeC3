@@ -2,6 +2,8 @@
 
 set -e
 
+unset PYTHONPATH
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
@@ -40,3 +42,8 @@ echo ""
 echo "======================================"
 echo "✅ Instalação concluída com sucesso!"
 echo "======================================"
+echo ""
+echo "Para iniciar:"
+echo "   sh scripts/rodar.sh <ARQUIVO_DE_PROVA>"
+echo "Exemplo:"
+echo "   sh scripts/rodar.sh testes_parte3.enc"

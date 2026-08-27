@@ -5,7 +5,7 @@ Sistema para aplicação e correção automática de exercícios de programaçã
 ## Instalação
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/giselesimas/CodeJudgeC3
 cd CodeJudgeC3
 sh scripts/install.sh
 ```
@@ -13,19 +13,13 @@ sh scripts/install.sh
 ## Execução
 
 ```bash
-sh scripts/rodar.sh testes_parte1_2.enc
+sh scripts/rodar.sh <ARQUIVO_DE_PROVA>
 ```
 
-ou
+Exemplo:
 
 ```bash
 sh scripts/rodar.sh testes_parte3.enc
-```
-
-O sistema será iniciado em:
-
-```text
-http://localhost:8501
 ```
 
 ## Estrutura

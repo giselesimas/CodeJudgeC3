@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Soluções para os exercícios de programação
+solucoes/*.json
