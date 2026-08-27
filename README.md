@@ -45,7 +45,19 @@ sh scripts/rodar.sh testes_parte3.enc
 
 3. Abra o **Prompt de Comando (CMD)** dentro da pasta extraída.
 
-4. Execute:
+4. Verifique se o **Python 3** está instalado. No Prompt de Comando (CMD), execute:
+
+```bat
+python --version
+```
+
+Caso o Python não esteja instalado, faça o download pelo site oficial, selecionando a opção Windows installer (64-bit):
+
+https://www.python.org/downloads/windows/
+
+Após a instalação, feche e abra novamente o Prompt de Comando.
+
+5. Execute:
 
 ```bat
 scripts\install.bat
@@ -58,7 +70,6 @@ scripts\rodar.bat <ARQUIVO_DE_PROVA>
 ```
 
 Exemplo:
-
 
 ```bat
 scripts\rodar.bat testes_parte3.enc
