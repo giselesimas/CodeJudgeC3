@@ -33,7 +33,7 @@ scripts\install.bat
 
 ### Linux
 
-1. Faça o download do projeto no GitHub:
+1. Faça o download do projeto no GitHub https://github.com/giselesimas/CodeJudgeC3:
 
    * Clique em **Code**
    * Selecione **Download ZIP**
@@ -57,7 +57,7 @@ sh scripts/rodar.sh testes_parte3.enc
 
 ### Windows
 
-1. Faça o download do projeto no GitHub:
+1. Faça o download do projeto no GitHub https://github.com/giselesimas/CodeJudgeC3:
 
    * Clique em **Code**
    * Selecione **Download ZIP**
