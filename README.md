@@ -21,33 +21,6 @@ Sistema para aplicação e correção automática de exercícios de programaçã
 sh scripts/install.sh
 ```
 
-### Windows
-
-Abra o **Prompt de Comando (CMD)** e execute:
-
-```bat
-git clone https://github.com/giselesimas/CodeJudgeC3
-cd CodeJudgeC3
-scripts\install.bat
-```
-
-### Linux
-
-1. Faça o download do projeto no GitHub https://github.com/giselesimas/CodeJudgeC3:
-
-   * Clique em **Code**
-   * Selecione **Download ZIP**
-
-2. Extraia o arquivo ZIP em uma pasta do computador.
-
-3. Abra o terminal dentro da pasta extraída.
-
-4. Execute:
-
-```bash
-sh scripts/install.sh
-```
-
 Após a instalação, execute o sistema com:
 
 ```bash
