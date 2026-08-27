@@ -2,13 +2,22 @@
 
 Sistema para aplicação e correção automática de exercícios de programação em Python, desenvolvido para uso acadêmico no **C3/FURG**.
 
-## Instalação
+## Instalação e Execução
 
 ### Linux
 
+1. Faça o download do projeto no GitHub https://github.com/giselesimas/CodeJudgeC3:
+
+   * Clique em **Code**
+   * Selecione **Download ZIP**
+
+2. Extraia o arquivo ZIP em uma pasta do computador.
+
+3. Abra o terminal dentro da pasta extraída.
+
+4. Execute:
+
 ```bash
-git clone https://github.com/giselesimas/CodeJudgeC3
-cd CodeJudgeC3
 sh scripts/install.sh
 ```
 
@@ -22,33 +31,53 @@ cd CodeJudgeC3
 scripts\install.bat
 ```
 
-## Execução
-
 ### Linux
 
+1. Faça o download do projeto no GitHub:
+
+   * Clique em **Code**
+   * Selecione **Download ZIP**
+
+2. Extraia o arquivo ZIP em uma pasta do computador.
+
+3. Abra o terminal dentro da pasta extraída.
+
+4. Execute:
+
 ```bash
-sh scripts/rodar.sh <ARQUIVO_DE_PROVA>
+sh scripts/install.sh
 ```
 
-Exemplo:
-
-Abra o **Prompt de Comando (CMD)** e execute:
+Após a instalação, execute o sistema com:
 
 ```bash
 sh scripts/rodar.sh testes_parte3.enc
 ```
 
+
 ### Windows
 
+1. Faça o download do projeto no GitHub:
+
+   * Clique em **Code**
+   * Selecione **Download ZIP**
+
+2. Extraia o arquivo ZIP em uma pasta do computador.
+
+3. Abra o **Prompt de Comando (CMD)** dentro da pasta extraída.
+
+4. Execute:
+
 ```bat
-scripts\rodar.bat <ARQUIVO_DE_PROVA>
+scripts\install.bat
 ```
 
-Exemplo:
+Após a instalação, execute o sistema com:
 
 ```bat
 scripts\rodar.bat testes_parte3.enc
 ```
+
 
 ## Estrutura
 
