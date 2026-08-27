@@ -562,14 +562,7 @@ try:
             faltam_dados = not nome.strip() or not matricula.strip()
             
             if not faltam_dados:
-                nome_formatado = '_'.join(nome.lower().split())
-                
-                # ---> NOVIDADE: Cria uma cópia do JSON com o nome do aluno
-                try:
-                    with open(PASTA_SOLUCOES / f"{nome_formatado}.json", "w", encoding="utf-8") as f:
-                        json.dump(st.session_state.historico, f, ensure_ascii=False, indent=4)
-                except Exception as e:
-                    st.error(f"Erro ao criar cópia do JSON do aluno: {e}")
+                nome_formatado = '_'.join(nome.lower().split())               
 
                 # ---> Geração do PDF
                 pdf_bytes = gerar_pdf_relatorio(
