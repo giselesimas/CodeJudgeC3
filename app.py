@@ -11,11 +11,13 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from juiz_core import corrigir_codigo
 from fpdf import FPDF
+from fpdf.enums import XPos, YPos
 import os
 import sys
 import io
 import traceback
 import random
+import zipfile
 
 SALT = b"CodeJudgeC3_FURG_C3_2026"
 
@@ -107,21 +109,21 @@ def gerar_pdf_relatorio(historico, testes, nota_pratica, total_pratica, nota_teo
     total_prova_geral = 5.0 + total_pratica # 5 de teórica + soma dos pesos práticos
     
     # CABEÇALHO
-    pdf.set_font("Arial", 'B', 16)
-    pdf.cell(0, 10, txt=limpar_texto("CodeJudgeC3 - Relatório de Prova"), ln=True, align='C')
+    pdf.set_font("Helvetica", 'B', 16)
+    pdf.cell(0, 10, text=limpar_texto("CodeJudgeC3 - Relatório de Prova"), new_x=XPos.LMARGIN, new_y=YPos.NEXT, align='C')
     pdf.ln(5)
     
-    pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 8, txt=limpar_texto(f"Aluno(a): {nome if nome else 'Não Identificado'}"), ln=True)
-    pdf.cell(0, 8, txt=limpar_texto(f"Matrícula: {matricula if matricula else 'Não Informada'}"), ln=True)
+    pdf.set_font("Helvetica", 'B', 12)
+    pdf.cell(0, 8, text=limpar_texto(f"Aluno(a): {nome if nome else 'Não Identificado'}"), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
+    pdf.cell(0, 8, text=limpar_texto(f"Matrícula: {matricula if matricula else 'Não Informada'}"), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(2)
     
-    pdf.set_font("Arial", 'B', 12)
-    pdf.cell(0, 8, txt=limpar_texto(f"Nota Prática (Preliminar): {nota_pratica:.2f} / {total_pratica:.1f} pts"), ln=True)
+    pdf.set_font("Helvetica", 'B', 12)
+    pdf.cell(0, 8, text=limpar_texto(f"Nota Prática (Preliminar): {nota_pratica:.2f} / {total_pratica:.1f} pts"), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     
     
-    pdf.set_font("Arial", 'I', 9)
-    pdf.cell(0, 5, txt=limpar_texto("* Observação: Esta é uma nota preliminar automática. A prática será revisada."), ln=True)
+    pdf.set_font("Helvetica", 'I', 9)
+    pdf.cell(0, 5, text=limpar_texto("* Observação: Esta é uma nota preliminar automática. A prática será revisada."), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     
     pdf.ln(2)
     pdf.line(10, pdf.get_y(), 200, pdf.get_y())
@@ -132,8 +134,8 @@ def gerar_pdf_relatorio(historico, testes, nota_pratica, total_pratica, nota_teo
     # ------------------------------------------
     # DETALHAMENTO DA PROVA PRÁTICA
     # ------------------------------------------
-    pdf.set_font("Arial", 'B', 14)
-    pdf.cell(0, 10, txt=limpar_texto("Detalhamento - Prova Prática"), ln=True)
+    pdf.set_font("Helvetica", 'B', 14)
+    pdf.cell(0, 10, text=limpar_texto("Detalhamento - Prova Prática"), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
     pdf.ln(2)
     
     for questao, dados in testes.items():
@@ -142,12 +144,12 @@ def gerar_pdf_relatorio(historico, testes, nota_pratica, total_pratica, nota_teo
         melhor_acerto = max([t['acertos'] / max(t['total'], 1) for t in tentativas], default=0) if tentativas else 0.0
         nota_questao = melhor_acerto * peso
         
-        pdf.set_font("Arial", 'B', 12)
-        pdf.cell(0, 10, txt=limpar_texto(f"{questao} | Nota: {nota_questao:.1f} / {peso:.1f} pts"), ln=True)
+        pdf.set_font("Helvetica", 'B', 12)
+        pdf.cell(0, 10, text=limpar_texto(f"{questao} | Nota: {nota_questao:.1f} / {peso:.1f} pts"), new_x=XPos.LMARGIN, new_y=YPos.NEXT,)
         
         if not tentativas:
-            pdf.set_font("Arial", 'I', 11)
-            pdf.cell(0, 8, txt=limpar_texto("Nenhuma submissão enviada."), ln=True)
+            pdf.set_font("Helvetica", 'I', 11)
+            pdf.cell(0, 8, text=limpar_texto("Nenhuma submissão enviada."), new_x=XPos.LMARGIN, new_y=YPos.NEXT,)
             pdf.ln(5)
             continue
             
@@ -155,13 +157,14 @@ def gerar_pdf_relatorio(historico, testes, nota_pratica, total_pratica, nota_teo
             total_testes = max(t['total'], 1)
             porcentagem = (t['acertos'] / total_testes) * 100
             
-            pdf.set_font("Arial", 'B', 11)
-            pdf.cell(0, 8, txt=limpar_texto(f"Tentativa {i} | Acertos: {t['acertos']}/{t['total']} ({porcentagem:.0f}%)"), ln=True)
+            pdf.set_font("Helvetica", 'B', 11)
+            pdf.cell(0, 8, text=limpar_texto(f"Tentativa {i} | Acertos: {t['acertos']}/{t['total']} ({porcentagem:.0f}%)"), new_x=XPos.LMARGIN, new_y=YPos.NEXT)
             
             pdf.set_font("Courier", '', 9)
             codigo_linhas = t['codigo'].split('\n')
             for linha in codigo_linhas:
-                pdf.multi_cell(0, 5, txt=limpar_texto(linha))
+                pdf.set_x(pdf.l_margin)
+                pdf.multi_cell(0, 5, text=limpar_texto(linha))
             pdf.ln(5)
             
         pdf.ln(5)
@@ -573,11 +576,42 @@ try:
                     st.session_state.respostas_teoricas
                 )
 
+                # Nome da prova, por exemplo: testes_parte3
+                nome_prova = ARQUIVO_TESTES.stem
+
+                # JSON consolidado
+                json_bytes = json.dumps(
+                    st.session_state.historico,
+                    ensure_ascii=False,
+                    indent=4
+                ).encode("utf-8")
+
+                # Cria ZIP em memória
+                zip_buffer = io.BytesIO()
+
+                with zipfile.ZipFile(
+                    zip_buffer,
+                    "w",
+                    zipfile.ZIP_DEFLATED
+                ) as zip_file:
+
+                    zip_file.writestr(
+                        f"solucoes_{nome_prova}_{nome_formatado}_{matricula}.json",
+                        json_bytes
+                    )
+
+                    zip_file.writestr(
+                        f"comprovante_{nome_prova}_{nome_formatado}_{matricula}.pdf",
+                        pdf_bytes
+                    )
+
+                zip_buffer.seek(0)
+
                 st.download_button(
-                    label="📄 Baixar Comprovante (PDF)",
-                    data=pdf_bytes,
-                    file_name=f"comprovante_{nome_formatado}.pdf",
-                    mime="application/pdf",
+                    label="📦 Baixar Entrega",
+                    data=zip_buffer.getvalue(),
+                    file_name=f"entrega_{nome_prova}_{nome_formatado}_{matricula}.zip",
+                    mime="application/zip",
                     use_container_width=True,
                     type="primary"
                 )
