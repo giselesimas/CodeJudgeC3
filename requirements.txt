@@ -1,0 +1,4 @@
+streamlit
+streamlit-code-editor
+cryptography
+fpdf2
