@@ -24,6 +24,12 @@ sh scripts/install.sh
 Após a instalação, execute o sistema com:
 
 ```bash
+sh scripts/rodar.sh <ARQUIVO_DE_PROVA>
+```
+
+Exemplo:
+
+```bash
 sh scripts/rodar.sh testes_parte3.enc
 ```
 
@@ -48,9 +54,15 @@ scripts\install.bat
 Após a instalação, execute o sistema com:
 
 ```bat
-scripts\rodar.bat testes_parte3.enc
+scripts\rodar.bat <ARQUIVO_DE_PROVA>
 ```
 
+Exemplo:
+
+
+```bat
+scripts\rodar.bat testes_parte3.enc
+```
 
 ## Estrutura
 
