@@ -21,12 +21,15 @@ import zipfile
 
 SALT = b"CodeJudgeC3_FURG_C3_2026"
 
+VERSAO = Path("VERSION").read_text(encoding="utf-8").strip()
+
 # Arquivo .enc informado na execução:
 # sh rodar.sh testes_parte3.enc
 if len(sys.argv) < 2:
     st.error(
-        "❌ Informe o arquivo de testes. "
-        "Exemplo: sh scripts/rodar.sh testes_parte3.enc"
+        "❌ Informe o arquivo de testes.\n\n"
+        "Exemplo (Linux): `sh scripts/rodar.sh testes_parte3.enc`\n\n"
+        "Exemplo (Windows): `scripts\\rodar.bat testes_parte3.enc`"
     )
     st.stop()
 
@@ -170,8 +173,13 @@ def gerar_pdf_relatorio(historico, testes, nota_pratica, total_pratica, nota_teo
         pdf.ln(5)
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
-        pdf.output(tmp.name)
-        return Path(tmp.name).read_bytes()
+        caminho_pdf = Path(tmp.name)
+
+    try:
+        pdf.output(str(caminho_pdf))
+        return caminho_pdf.read_bytes()
+    finally:
+        caminho_pdf.unlink(missing_ok=True)
 
 # ==========================================
 # Configuração e Estado
@@ -654,10 +662,11 @@ try:
             )            
 
             st.markdown(
-                """
+                f"""
                 <div style="text-align: center; margin-top: 40px;">
                     <p style="color: #808495; font-size: 12px;">
-                        Desenvolvido por <br><b>Profª. Gisele Simas - C3, FURG</b>
+                        Desenvolvido por <br><b>Profª. Gisele Simas - C3, FURG</b><br>
+                        CodeJudgeC3 v{VERSAO}
                     </p>
                 </div>
                 """, 
