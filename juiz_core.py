@@ -31,6 +31,7 @@ def verificar_codigo_seguro(codigo):
 DRIVER_TEMPLATE = """
 import sys
 import json
+from collections import deque
 
 class ListNode:
     def __init__(self, val=0, next=None):
@@ -68,6 +69,8 @@ if __name__ == '__main__':
         for k, v in args.items():
             if k.startswith('head'): 
                 kwargs[k] = list_to_link(v)
+            elif k.startswith('fila'):
+                kwargs[k] = deque(v)
             else: 
                 kwargs[k] = v
                 
@@ -77,6 +80,8 @@ if __name__ == '__main__':
         # Converte o retorno para lista (se for um Nó) para facilitar a comparação
         if isinstance(result, ListNode): 
             out = link_to_list(result)
+        elif isinstance(result, deque):
+            out = list(result)
         elif result is None: 
             out = [] # Se a função deveria retornar head e retornou None, consideramos lista vazia
         else: 
