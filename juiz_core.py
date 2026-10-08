@@ -38,6 +38,12 @@ class ListNode:
         self.val = val
         self.next = next
 
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
 def list_to_link(lst):
     if not lst: return None
     h = ListNode(lst[0])
@@ -54,6 +60,53 @@ def link_to_list(node):
         node = node.next
     return r
 
+def list_to_tree(lst):
+    if not lst or lst[0] is None:
+        return None
+
+    raiz = TreeNode(lst[0])
+    fila = deque([raiz])
+    i = 1
+
+    while fila and i < len(lst):
+        no = fila.popleft()
+
+        if i < len(lst):
+            if lst[i] is not None:
+                no.left = TreeNode(lst[i])
+                fila.append(no.left)
+            i += 1
+
+        if i < len(lst):
+            if lst[i] is not None:
+                no.right = TreeNode(lst[i])
+                fila.append(no.right)
+            i += 1
+
+    return raiz
+
+def tree_to_list(root):
+    if root is None:
+        return []
+
+    resultado = []
+    fila = deque([root])
+
+    while fila:
+        no = fila.popleft()
+
+        if no is None:
+            resultado.append(None)
+        else:
+            resultado.append(no.val)
+            fila.append(no.left)
+            fila.append(no.right)
+
+    while resultado and resultado[-1] is None:
+        resultado.pop()
+
+    return resultado
+
 # --- CODIGO DO ALUNO ---
 {codigo_aluno}
 # -----------------------
@@ -64,27 +117,31 @@ if __name__ == '__main__':
         if not raw_input: sys.exit(0)
         args = json.loads(raw_input)
         
-        # Converte as entradas (como 'head') para Linked Lists
+        # Converte estruturas serializadas do JSON para os TADs esperados
         kwargs = {{}}
         for k, v in args.items():
-            if k.startswith('head'): 
+            if k.startswith('head'):
                 kwargs[k] = list_to_link(v)
             elif k.startswith('fila'):
                 kwargs[k] = deque(v)
-            else: 
+            elif k.startswith('raiz'):
+                kwargs[k] = list_to_tree(v)
+            else:
                 kwargs[k] = v
                 
         # Chama a função do aluno
         result = {funcao_alvo}(**kwargs)
         
-        # Converte o retorno para lista (se for um Nó) para facilitar a comparação
-        if isinstance(result, ListNode): 
+        # Converte estruturas retornadas para formas serializáveis em JSON
+        if isinstance(result, ListNode):
             out = link_to_list(result)
+        elif isinstance(result, TreeNode):
+            out = tree_to_list(result)
         elif isinstance(result, deque):
             out = list(result)
-        elif result is None: 
-            out = [] # Se a função deveria retornar head e retornou None, consideramos lista vazia
-        else: 
+        elif result is None:
+            out = []
+        else:
             out = result
             
         print(json.dumps({{"sucesso": True, "saida": out}}))
@@ -162,7 +219,7 @@ def corrigir_codigo(codigo, testes, funcao_alvo, timeout=1):
                 resultados.append({
                     "teste": i, "passou": False, "status": "Time Limit Exceeded",
                     "saida_obtida": "", "saida_esperada": str(saida_esperada), 
-                    "erro": f"Tempo esgotado ({timeout}s). Verifique loops infinitos nos ponteiros."
+                    "erro": f"Tempo esgotado ({timeout}s). Verifique loops infinitos ou recursão sem caso base."
                 })
 
     finally:
